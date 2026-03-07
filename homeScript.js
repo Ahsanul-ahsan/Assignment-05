@@ -3,29 +3,50 @@ const allFilterBtn = document.getElementById('all-filter-btn');
 const openFilterBtn = document.getElementById('open-filter-btn');
 const closedFilterBtn = document.getElementById('closed-filter-btn');
 
+
 const filterButtons = [allFilterBtn, openFilterBtn, closedFilterBtn];
-
-function Button(clickedButton) {
-    filterButtons.forEach(btn => {
-        btn.classList.remove('bg-blue-700', 'text-white');
-        btn.classList.add('bg-gray-100', 'text-black');
+// button style js
+filterButtons.forEach(btn => {
+    btn.addEventListener('click', (eliment) => {
+        filterButtons.forEach(button => {
+            button.classList.remove('bg-blue-700', 'text-white');
+            button.classList.add('bg-gray-100', 'text-black');
+        });
+        eliment.target.classList.add('bg-blue-700', 'text-white');
+        eliment.target.classList.remove('bg-gray-100', 'text-black');
     });
-    clickedButton.classList.remove('bg-gray-100', 'text-black');
-    clickedButton.classList.add('bg-blue-700', 'text-white');
-}
-
-allFilterBtn.addEventListener('click', function () {
-    Button(allFilterBtn);
-
 });
 
-openFilterBtn.addEventListener('click', function () {
-    Button(openFilterBtn);
-});
 
-closedFilterBtn.addEventListener('click', function () {
-    Button(closedFilterBtn);
-});
+let allissues = [];
+const  btnAllFilter = async() => {
+    const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
+    const data = await res.json();
+    allissues = data.data;
+    displayCard(allissues);
+};
+btnAllFilter();
+
+document.getElementById("open-filter-btn").addEventListener("click", ()=>{
+const openBtn = allissues.filter((issue)=>issue.status==="open")
+console.log(openBtn)
+displayCard(openBtn)
+})
+
+document.getElementById("closed-filter-btn").addEventListener("click", ()=>{
+const closedBtn = allissues.filter((open)=>open.status==="closed")
+console.log(closedBtn)
+displayCard(closedBtn)
+
+})
+
+document.getElementById("all-filter-btn").addEventListener("click", ()=>{
+displayCard(allissues)
+
+})
+
+
+
 
 
 // card js
@@ -39,12 +60,14 @@ const card = () => {
 // card display js
 const displayCard = (data) => {
     const cardContainer = document.getElementById("card-container");
+    document.getElementById("total-count").innerText=data.length;
+    cardContainer.innerHTML="";
     data.forEach(card => {
         const newCard = document.createElement("div");
         newCard.innerHTML = `
-     <div class="max-w-sm rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden  h-[350px] space-y-2">
-             <div class="h-2 ${card.status == "open" ? "bg-green-500" : "bg-[#A855F7]"} w-full"></div>
-            <div class="p-3">
+            <div onclick="modalName(${card.id})" class="max-w-sm rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden  h-[350px] space-y-2">
+             <div   class="h-2 ${card.status == "open" ? "bg-green-500" : "bg-[#A855F7]"} w-full"></div>
+             <div class="p-3">
                 <div class="flex justify-between items-start mb-3">
                     <div
                     class=" ">
@@ -96,4 +119,16 @@ const displayCard = (data) => {
     });
 
 };
+
+// for modal function 
+
+const  modalName = async (id)=>{
+const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+const data = await res.json()
+const modalPlan = data.data
+console.log(modalPlan, "data")
+modalDetails.showModal();
+};
+
+
 card();
