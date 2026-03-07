@@ -106,69 +106,30 @@
     <div id="card-container" class="grid grid-cols-4 space-y-5 w-11/12 mx-auto mt-8 mb-10 gap-5 ">
 
 
-    </div>
+    </div> 
 
     <!-- model card section  -->
     <section>
         <dialog id="modalDetails" class="modal">
             <div class="modal-box">
-                <!-- for dinamic -->
-                <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-100">
-                    <div class="p-6">
-                        <h2 class="text-2xl font-bold text-slate-800">Fix broken image uploads</h2>
-                        <div class="flex gap-2 mt-2 items-center">
-                            <span
-                                class="px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full">Opened</span>
-                            <p class="text-sm text-slate-500">• Opened by Fahim Ahmed • 22/12/2024</p>
-                        </div>
-
-                        <div class="flex gap-2 mt-4">
-                            <span
-                                class="px-2 py-1 bg-red-100 text-red-600 text-[10px] font-bold uppercase rounded border border-red-200">🚩
-                                Bug</span>
-                            <span
-                                class="px-2 py-1 bg-orange-100 text-orange-600 text-[10px] font-bold uppercase rounded border border-orange-200">🤝
-                                Help Wanted</span>
-                        </div>
-                    </div>
-
-                    <div class="px-6 pb-6">
-                        <p class="text-slate-600 leading-relaxed">
-                            The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive
-                            behavior.
-                        </p>
-                    </div>
-
-                    <div class="bg-slate-50 p-6 flex justify-between items-center">
-                        <div>
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Assignee:</p>
-                            <p class="font-bold text-slate-800">Fahim Ahmed</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Priority:</p>
-                            <span class="px-4 py-1 bg-red-500 text-white text-xs font-bold rounded-full">HIGH</span>
-                        </div>
-                    </div>
-
-                    <div class="p-4 flex justify-end border-t border-slate-100">
-                        <button
-                            class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-2 rounded-lg font-semibold transition-colors">
-                            Close
-                        </button>
-                    </div>
-
+                <div id="modelTitle" class="space-y-2">
+                    <!-- modal digaln  -->
                 </div>
+
                 <div class="modal-action">
                     <form method="dialog">
-                        <button class="btn">Close</button>
+                        <!-- close the modal -->
+                        <button class="btn btn-primary">Close</button>
                     </form>
                 </div>
             </div>
         </dialog>
-    </section>
 
+
+    </section>
+ 
 
     <script src="./homeScript.js"></script>
 </body>
 
-</html>
+</html> 

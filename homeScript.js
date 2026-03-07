@@ -3,7 +3,6 @@ const allFilterBtn = document.getElementById('all-filter-btn');
 const openFilterBtn = document.getElementById('open-filter-btn');
 const closedFilterBtn = document.getElementById('closed-filter-btn');
 
-
 const filterButtons = [allFilterBtn, openFilterBtn, closedFilterBtn];
 // button style js
 filterButtons.forEach(btn => {
@@ -17,9 +16,8 @@ filterButtons.forEach(btn => {
     });
 });
 
-
 let allissues = [];
-const  btnAllFilter = async() => {
+const btnAllFilter = async () => {
     const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
     const data = await res.json();
     allissues = data.data;
@@ -27,27 +25,23 @@ const  btnAllFilter = async() => {
 };
 btnAllFilter();
 
-document.getElementById("open-filter-btn").addEventListener("click", ()=>{
-const openBtn = allissues.filter((issue)=>issue.status==="open")
-console.log(openBtn)
-displayCard(openBtn)
+document.getElementById("open-filter-btn").addEventListener("click", () => {
+    const openBtn = allissues.filter((issue) => issue.status === "open")
+    console.log(openBtn)
+    displayCard(openBtn)
 })
 
-document.getElementById("closed-filter-btn").addEventListener("click", ()=>{
-const closedBtn = allissues.filter((open)=>open.status==="closed")
-console.log(closedBtn)
-displayCard(closedBtn)
-
-})
-
-document.getElementById("all-filter-btn").addEventListener("click", ()=>{
-displayCard(allissues)
+document.getElementById("closed-filter-btn").addEventListener("click", () => {
+    const closedBtn = allissues.filter((open) => open.status === "closed")
+    console.log(closedBtn)
+    displayCard(closedBtn)
 
 })
 
+document.getElementById("all-filter-btn").addEventListener("click", () => {
+    displayCard(allissues)
 
-
-
+});
 
 // card js
 const card = () => {
@@ -60,8 +54,8 @@ const card = () => {
 // card display js
 const displayCard = (data) => {
     const cardContainer = document.getElementById("card-container");
-    document.getElementById("total-count").innerText=data.length;
-    cardContainer.innerHTML="";
+    document.getElementById("total-count").innerText = data.length;
+    cardContainer.innerHTML = "";
     data.forEach(card => {
         const newCard = document.createElement("div");
         newCard.innerHTML = `
@@ -121,14 +115,61 @@ const displayCard = (data) => {
 };
 
 // for modal function 
+const modalName = async (id) => {
+    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+    const data = await res.json()
+    displayModal(data.data)
+    document.getElementById("modalDetails").showModal();
 
-const  modalName = async (id)=>{
-const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
-const data = await res.json()
-const modalPlan = data.data
-console.log(modalPlan, "data")
-modalDetails.showModal();
 };
 
+const displayModal = (eliment) => {
+    const modelTile = document.getElementById("modelTitle");
+    modelTile.innerHTML = `
+    <div class="bg-white rounded-xl w-full max-w-lg overflow-hidden border border-slate-100">
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-slate-800">${eliment.title}</h2>
+                        <div class="flex gap-2 mt-2 items-center">
+                            <span
+                                class="px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-full">${eliment.status}</span>
+                            <p class="text-sm text-slate-500">• ${eliment.status} by ${eliment.author} • ${eliment.updatedAt}</p>
+                        </div>
+
+                        <div class="flex gap-2 mt-4">
+                           ${eliment.labels.map(label => `
+                         <span
+                         class="bg-red-100 text-red-500 text-[11px] font-semibold px-3 py-1 rounded shadow-sm uppercase">
+                            ${label}
+                            
+                              </span>
+                            `)
+
+                .join("")}
+                        </div>
+                    </div>
+
+                    <div class="px-6 pb-6">
+                        <p class="text-slate-600 leading-relaxed">
+                            ${eliment.description}
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 flex justify-between items-center">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Assignee:</p>
+                            <p class="font-bold text-slate-800">${eliment.assignee}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Priority:</p>
+                            <span class="px-4 py-1 bg-red-500 text-white text-xs font-bold rounded-full">${eliment.priority}</span>
+                        </div>
+                    </div>
+
+                </div>
+    
+    
+    `;
+
+};
 
 card();
