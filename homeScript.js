@@ -34,7 +34,7 @@ document.getElementById("open-filter-btn").addEventListener("click", () => {
 
 document.getElementById("closed-filter-btn").addEventListener("click", () => {
     const closedBtn = allissues.filter((open) => open.status === "closed")
-    console.log(closedBtn)
+    // console.log(closedBtn)
     displayCard(closedBtn)
 
 })
